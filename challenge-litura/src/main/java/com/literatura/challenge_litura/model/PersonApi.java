@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record Person(
+public record PersonApi(
         @JsonAlias("birth_year")
         Integer birthYear,
 
@@ -13,4 +13,12 @@ public record Person(
 
         String name
 ) {
+        @Override
+        public String toString() {
+                return "{ " +
+                        "name= " + name +
+                        ", birthYear= " + birthYear +
+                        ", deathYear= " + deathYear +
+                        " }";
+        }
 }

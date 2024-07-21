@@ -3,8 +3,9 @@ package com.literatura.challenge_litura.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class MapData implements IMapData{
 
     private final ObjectMapper objectMapper = new ObjectMapper();

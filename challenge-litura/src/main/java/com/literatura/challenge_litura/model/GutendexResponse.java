@@ -12,6 +12,6 @@ public record GutendexResponse(
         @JsonAlias("next")
         String nextPage,
         @JsonAlias("results")
-        List<Book> books
+        List<BookApi> books
 ) {
 }

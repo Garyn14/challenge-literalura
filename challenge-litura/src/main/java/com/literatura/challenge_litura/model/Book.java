@@ -1,23 +1,33 @@
 package com.literatura.challenge_litura.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.List;
+@Entity
+@Table(name = "books")
+@Getter @NoArgsConstructor
+@AllArgsConstructor
+@Setter
+public class Book {
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public record Book(
-        Long id,
-        String title,
-        List<String> subjects,
-        List<Person> authors,
-        List<Person> translators,
-        List<String> bookshelves,
-        List<String> languages,
-        Boolean copyright,
-        @JsonAlias("media_type")
-        String mediaType,
-        @JsonAlias("download_count")
-        Long downloadCount
-) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
+
+    private String language;
+
+    private Long downloadCount;
+
+    public Book(BookApi bookApi) {
+        this.title = bookApi.title();
+        this.author = new Author(bookApi.getFirstAuthor());
+        this.language = bookApi.getFirstLanguage();
+        this.downloadCount = bookApi.downloadCount();
+    }
 }

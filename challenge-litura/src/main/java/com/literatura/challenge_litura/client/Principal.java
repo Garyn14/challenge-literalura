@@ -4,6 +4,7 @@ import com.literatura.challenge_litura.model.Book;
 import com.literatura.challenge_litura.model.BookApi;
 import com.literatura.challenge_litura.model.GutendexResponse;
 import com.literatura.challenge_litura.repository.BookRepository;
+import com.literatura.challenge_litura.service.AuthorService;
 import com.literatura.challenge_litura.service.BookService;
 import com.literatura.challenge_litura.service.ConsumeApi;
 import com.literatura.challenge_litura.service.IMapData;
@@ -21,6 +22,9 @@ public class Principal {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private AuthorService authorService;
 
     private final String URL_BASE = "https://gutendex.com/books/";
     private final Scanner entry = new Scanner(System.in);
@@ -62,11 +66,12 @@ public class Principal {
                     break;
                 }
                 case 3:{
-                    System.out.println("Opción 3");
+                    System.out.println("\nLista de Autores: ");
+                    getAuthors();
                     break;
                 }
                 default:{
-                    System.out.println("Opción inválida, Ingrese una opción correcta");
+                    System.out.println("Opción inválida, Ingrese una opción correcta: \n");
                 }
             }
 
@@ -112,5 +117,9 @@ public class Principal {
 
     private void getBooks(){
         bookService.getBooks().forEach(System.out::println);
+    }
+
+    private void getAuthors(){
+        authorService.getAuthors().forEach(System.out::println);
     }
 }

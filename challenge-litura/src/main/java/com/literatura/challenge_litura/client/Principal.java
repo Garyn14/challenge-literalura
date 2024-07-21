@@ -53,45 +53,12 @@ public class Principal {
 
             switch (opc){
                 case 1:{
-                    System.out.println("\nIngrese el título del libro: ");
-                    String title = entry.nextLine();
-
-                    String titleFormat = title.replaceAll(" ", "%20");
-                    String url = URL_BASE + "?search=" + titleFormat;
-
-                    try {
-                        String json = ConsumeApi.getData(url);
-                        GutendexResponse response = mapData.mapData(json, GutendexResponse.class);
-
-                        // check if the book exists in the API
-                        if (response.books().isEmpty()){
-                            System.out.println("\nLibro no encontrado, pruebe con otro título");
-                            break;
-                        }
-
-                        // get the first book
-                        Book book = new Book(response.books().get(0));
-
-                        // review if the book exists in the database
-                        boolean bookExists = bookService.existsByTitle(book.getTitle());
-                        if (bookExists){
-                            System.out.println("El libro ya existe en la base de datos");
-                            System.out.println(book);
-                            break;
-                        }
-
-                        // if the book was not created
-                        System.out.println(bookService.createBook(book));
-                        System.out.println("\nLibro agregado exitosamente a la base de datos");
-
-                    } catch (IOException | InterruptedException ex){
-                        System.out.println("Algo ha salido mal");
-                    }
-
+                    createBook();
                     break;
                 }
                 case 2:{
-                    System.out.println("Opción 02");
+                    System.out.println("\nLibros guardados en la base de datos");
+                    getBooks();
                     break;
                 }
                 case 3:{
@@ -104,5 +71,46 @@ public class Principal {
             }
 
         }
+    }
+
+    private void createBook(){
+        System.out.println("\nIngrese el título del libro: ");
+        String title = entry.nextLine();
+
+        String titleFormat = title.replaceAll(" ", "%20");
+        String url = URL_BASE + "?search=" + titleFormat;
+
+        try {
+            String json = ConsumeApi.getData(url);
+            GutendexResponse response = mapData.mapData(json, GutendexResponse.class);
+
+            // check if the book exists in the API
+            if (response.books().isEmpty()){
+                System.out.println("\nLibro no encontrado, pruebe con otro título");
+                return;
+            }
+
+            // get the first book
+            Book book = new Book(response.books().get(0));
+
+            // review if the book exists in the database
+            boolean bookExists = bookService.existsByTitle(book.getTitle());
+            if (bookExists){
+                System.out.println("El libro ya existe en la base de datos");
+                System.out.println(book);
+                return;
+            }
+
+            // if the book was not created
+            bookService.createBook(book);
+            System.out.println("\nLibro agregado exitosamente a la base de datos");
+
+        } catch (IOException | InterruptedException ex){
+            System.out.println("Algo ha salido mal");
+        }
+    }
+
+    private void getBooks(){
+        bookService.getBooks().forEach(System.out::println);
     }
 }

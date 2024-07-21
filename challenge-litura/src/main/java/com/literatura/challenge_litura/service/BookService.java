@@ -4,7 +4,6 @@ import com.literatura.challenge_litura.model.Author;
 import com.literatura.challenge_litura.model.Book;
 import com.literatura.challenge_litura.repository.AuthorRepository;
 import com.literatura.challenge_litura.repository.BookRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +30,9 @@ public class BookService {
 
     public boolean existsByTitle(String title) {
         return bookRepository.existsByTitle(title);
+    }
+
+    public Iterable<Book> getBooks(){
+        return bookRepository.findAll();
     }
 }

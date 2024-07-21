@@ -30,4 +30,15 @@ public class Book {
         this.language = bookApi.getFirstLanguage();
         this.downloadCount = bookApi.downloadCount();
     }
+
+    @Override
+    public String toString() {
+        return "\n{" +
+                "\nid= " + id +
+                "\ntitle= " + title +
+                "\nauthor= " + author +
+                "\nlanguage= " + language +
+                "\ndownloadCount " + downloadCount +
+                "\n}";
+    }
 }

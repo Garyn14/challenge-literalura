@@ -31,4 +31,14 @@ public class Author {
             this.deathYear = firstAuthor.deathYear();
         }
     }
+
+    @Override
+    public String toString() {
+        return "{ " +
+                "id= " + id +
+                ", name= " + name +
+                ", birthYear= " + birthYear +
+                ", deathYear= " + deathYear +
+                " }";
+    }
 }

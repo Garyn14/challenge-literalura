@@ -3,6 +3,7 @@ package com.literatura.challenge_litura.client;
 import com.literatura.challenge_litura.model.Author;
 import com.literatura.challenge_litura.model.Book;
 import com.literatura.challenge_litura.model.GutendexResponse;
+import com.literatura.challenge_litura.model.StatisticsByLanguage;
 import com.literatura.challenge_litura.service.AuthorService;
 import com.literatura.challenge_litura.service.BookService;
 import com.literatura.challenge_litura.service.ConsumeApi;
@@ -36,9 +37,10 @@ public class Principal {
                 OPCIONES:
                 
                     1.Búsqueda de libro por título
-                    2.Listar todos los libros
-                    3.Listar autores de libros agregados
+                    2.Listarlibros
+                    3.Listar autores
                     4.Autores vivos en determinado año
+                    5.Estadísticas por lenguage
                     0.Salir
                     
                     -> Ingrese una opción válida:""";
@@ -76,6 +78,11 @@ public class Principal {
                     entry.nextLine(); // clean buffer
                     System.out.println("\nLista de autores: ");
                     getAuthorsVivosInYear(year);
+                    break;
+                }
+                case 5:{
+                    System.out.println("\nEstadísticas por lenguages");
+                    getStatisticsByLanguage();
                     break;
                 }
                 default:{
@@ -152,6 +159,16 @@ public class Principal {
             System.out.println("\nNo hay registros que mostrar");
         } else{
             authors.forEach(System.out::println);
+        }
+    }
+
+    private void getStatisticsByLanguage() {
+        List<StatisticsByLanguage> statistics = bookService.getStatisticsByLanguage();
+
+        if(statistics.isEmpty()){
+            System.out.println("\nNo hay registros que mostrar");
+        } else{
+            statistics.forEach(System.out::println);
         }
     }
 }

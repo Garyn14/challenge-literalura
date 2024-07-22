@@ -2,10 +2,13 @@ package com.literatura.challenge_litura.service;
 
 import com.literatura.challenge_litura.model.Author;
 import com.literatura.challenge_litura.model.Book;
+import com.literatura.challenge_litura.model.StatisticsByLanguage;
 import com.literatura.challenge_litura.repository.AuthorRepository;
 import com.literatura.challenge_litura.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BookService {
@@ -34,5 +37,9 @@ public class BookService {
 
     public Iterable<Book> getBooks(){
         return bookRepository.findAll();
+    }
+
+    public List<StatisticsByLanguage> getStatisticsByLanguage() {
+        return bookRepository.getStatisticsByLanguage();
     }
 }

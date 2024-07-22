@@ -1,9 +1,8 @@
 package com.literatura.challenge_litura.client;
 
+import com.literatura.challenge_litura.model.Author;
 import com.literatura.challenge_litura.model.Book;
-import com.literatura.challenge_litura.model.BookApi;
 import com.literatura.challenge_litura.model.GutendexResponse;
-import com.literatura.challenge_litura.repository.BookRepository;
 import com.literatura.challenge_litura.service.AuthorService;
 import com.literatura.challenge_litura.service.BookService;
 import com.literatura.challenge_litura.service.ConsumeApi;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 @Component
@@ -70,6 +70,14 @@ public class Principal {
                     getAuthors();
                     break;
                 }
+                case 4:{
+                    System.out.println("\nIngrese el año: ");
+                    int year = entry.nextInt();
+                    entry.nextLine(); // clean buffer
+                    System.out.println("\nLista de autores: ");
+                    getAuthorsVivosInYear(year);
+                    break;
+                }
                 default:{
                     System.out.println("Opción inválida, Ingrese una opción correcta: \n");
                 }
@@ -116,10 +124,34 @@ public class Principal {
     }
 
     private void getBooks(){
+        List<Book> books = (List<Book>) bookService.getBooks();
+
+        if (books.isEmpty()){
+            System.out.println("\nNo hay registros que mostrar");
+        } else{
+            books.forEach(System.out::println);
+        }
+
         bookService.getBooks().forEach(System.out::println);
     }
 
     private void getAuthors(){
-        authorService.getAuthors().forEach(System.out::println);
+        List<Author> authors = (List<Author>) authorService.getAuthors();
+
+        if (authors.isEmpty()){
+            System.out.println("\nNo hay registros que mostrar");
+        } else{
+            authors.forEach(System.out::println);
+        }
+    }
+
+    private void getAuthorsVivosInYear(int year){
+        List<Author> authors = authorService.getAuthorsVivosInYear(year);
+
+        if (authors.isEmpty()){
+            System.out.println("\nNo hay registros que mostrar");
+        } else{
+            authors.forEach(System.out::println);
+        }
     }
 }

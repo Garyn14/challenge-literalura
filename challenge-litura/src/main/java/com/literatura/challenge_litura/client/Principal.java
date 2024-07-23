@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.DoubleSummaryStatistics;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -47,7 +48,7 @@ public class Principal {
                     8.Buscar autor por nombre
                     0.Salir
                     
-                    -> Ingrese una opción válida:""";
+                    -> Ingrese una opción:""";
     }
 
     public void initAplication(){
@@ -55,9 +56,15 @@ public class Principal {
         int opc = -1;
 
         while (true){
-            System.out.println(menu());
-            opc = entry.nextInt();
-            entry.nextLine();
+            try{
+                System.out.println(menu());
+                opc = entry.nextInt();
+            } catch (InputMismatchException ex){
+                System.out.println("\nOpción inválida, ingrese una opción válida: ");
+                continue;
+            } finally {
+                entry.nextLine(); // clean buffer
+            }
 
             if(opc == 0) break;
 
@@ -77,11 +84,17 @@ public class Principal {
                     break;
                 }
                 case 4:{
-                    System.out.println("\nIngrese el año: ");
-                    int year = entry.nextInt();
-                    entry.nextLine(); // clean buffer
-                    System.out.println("\nLista de autores: ");
-                    getAuthorsVivosInYear(year);
+                    try {
+                        System.out.println("\nIngrese el año: ");
+                        int year = entry.nextInt();
+                        System.out.println("\nLista de autores: ");
+                        getAuthorsVivosInYear(year);
+                    } catch (InputMismatchException ex){
+                        System.out.println("\nIngrese una opción válida");
+                    } finally {
+                        entry.nextLine(); // clean buffer
+                    }
+
                     break;
                 }
                 case 5:{
@@ -99,9 +112,14 @@ public class Principal {
                     break;
                 }
                 case 8:{
-                    System.out.println("\nIngrese el nombre a buscar: ");
-                    String name = entry.nextLine();
-                    searchAuthorByName(name);
+                    try {
+                        System.out.println("\nIngrese el nombre a buscar: ");
+                        String name = entry.nextLine();
+                        searchAuthorByName(name);
+                    } catch (InputMismatchException ex){
+                        System.out.println("\nIngrese una opción válida");
+                    }
+
                     break;
                 }
                 default:{
@@ -117,13 +135,13 @@ public class Principal {
     }
 
     private void createBook(){
-        System.out.println("\nIngrese el título del libro: ");
-        String title = entry.nextLine();
-
-        String titleFormat = title.replaceAll(" ", "%20");
-        String url = URL_BASE + "?search=" + titleFormat;
-
         try {
+            System.out.println("\nIngrese el título del libro: ");
+            String title = entry.nextLine();
+
+            String titleFormat = title.replaceAll(" ", "%20");
+            String url = URL_BASE + "?search=" + titleFormat;
+
             String json = ConsumeApi.getData(url);
             GutendexResponse response = mapData.mapData(json, GutendexResponse.class);
 
@@ -149,7 +167,9 @@ public class Principal {
             System.out.println("\nLibro agregado exitosamente a la base de datos");
 
         } catch (IOException | InterruptedException ex){
-            System.out.println("Algo ha salido mal");
+            System.out.println("\nAlgo ha salido mal con el servidor, intentelo más adelante");
+        } catch (InputMismatchException ex){
+            System.out.println("\nIngrese una opción válida");
         }
     }
 

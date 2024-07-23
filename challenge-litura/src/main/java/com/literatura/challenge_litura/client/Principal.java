@@ -43,6 +43,7 @@ public class Principal {
                     4.Autores vivos en determinado año
                     5.Estadísticas por lenguage
                     6.Estadísticas de descargas
+                    7.Top 5 libros más descargados
                     0.Salir
                     
                     -> Ingrese una opción válida:""";
@@ -90,6 +91,10 @@ public class Principal {
                 case 6:{
                     System.out.println("\nEstadísticas:");
                     getBooksStatistics();
+                    break;
+                }
+                case 7:{
+                    top5BookMostDownloaded();
                     break;
                 }
                 default:{
@@ -182,5 +187,10 @@ public class Principal {
         System.out.println("\nEl libro más popular tiene " + statistics.getMax() + " descargas");
         System.out.println("El libro menos popular tiene " + statistics.getMin() + " descargas");
         System.out.println("La media de descargas es " + statistics.getAverage());
+    }
+
+    private void top5BookMostDownloaded(){
+        System.out.println("\nTOP 5: ");
+        bookService.getTop5MostBooksDownloaded().forEach(System.out::println);
     }
 }

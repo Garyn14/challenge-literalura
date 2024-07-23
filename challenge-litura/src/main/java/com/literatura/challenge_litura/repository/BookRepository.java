@@ -14,4 +14,6 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 
     @Query("SELECT new com.literatura.challenge_litura.model.StatisticsByLanguage(b.language, COUNT(b)) FROM Book b GROUP BY b.language")
     List<StatisticsByLanguage> getStatisticsByLanguage();
+
+    List<Book> findTop5ByOrderByDownloadCountDesc();
 }

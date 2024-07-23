@@ -51,4 +51,8 @@ public class BookService {
                 .mapToDouble(Book::getDownloadCount)
                 .summaryStatistics();
     }
+
+    public List<Book> getTop5MostBooksDownloaded(){
+        return bookRepository.findTop5ByOrderByDownloadCountDesc();
+    }
 }

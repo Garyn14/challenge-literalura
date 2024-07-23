@@ -44,6 +44,7 @@ public class Principal {
                     5.Estadísticas por lenguage
                     6.Estadísticas de descargas
                     7.Top 5 libros más descargados
+                    8.Buscar autor por nombre
                     0.Salir
                     
                     -> Ingrese una opción válida:""";
@@ -97,12 +98,22 @@ public class Principal {
                     top5BookMostDownloaded();
                     break;
                 }
+                case 8:{
+                    System.out.println("\nIngrese el nombre a buscar: ");
+                    String name = entry.nextLine();
+                    searchAuthorByName(name);
+                    break;
+                }
                 default:{
                     System.out.println("Opción inválida, Ingrese una opción correcta: \n");
                 }
             }
-
         }
+
+        System.out.println("""
+                FIN DEL PROGRAMA
+                VUELVA PRONTO :D
+                """);
     }
 
     private void createBook(){
@@ -192,5 +203,16 @@ public class Principal {
     private void top5BookMostDownloaded(){
         System.out.println("\nTOP 5: ");
         bookService.getTop5MostBooksDownloaded().forEach(System.out::println);
+    }
+
+    private void searchAuthorByName(String name){
+
+        Author author = authorService.getAuthorByName(name);
+
+        if (author == null){
+            System.out.println("\nNo se encontró el autor");
+        } else{
+            System.out.println(author);
+        }
     }
 }

@@ -20,4 +20,10 @@ public class AuthorService {
     public List<Author> getAuthorsVivosInYear(int year) {
         return authorRepository.getAuthorsVivoInYear(year);
     }
+
+    public Author getAuthorByName(String name){
+        return authorRepository
+                .findFirstByNameContainingIgnoreCase(name)
+                .orElse(null);
+    }
 }

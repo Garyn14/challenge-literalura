@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Scanner;
 
@@ -41,6 +42,7 @@ public class Principal {
                     3.Listar autores
                     4.Autores vivos en determinado año
                     5.Estadísticas por lenguage
+                    6.Estadísticas de descargas
                     0.Salir
                     
                     -> Ingrese una opción válida:""";
@@ -83,6 +85,11 @@ public class Principal {
                 case 5:{
                     System.out.println("\nEstadísticas por lenguages");
                     getStatisticsByLanguage();
+                    break;
+                }
+                case 6:{
+                    System.out.println("\nEstadísticas:");
+                    getBooksStatistics();
                     break;
                 }
                 default:{
@@ -138,8 +145,6 @@ public class Principal {
         } else{
             books.forEach(System.out::println);
         }
-
-        bookService.getBooks().forEach(System.out::println);
     }
 
     private void getAuthors(){
@@ -170,5 +175,12 @@ public class Principal {
         } else{
             statistics.forEach(System.out::println);
         }
+    }
+
+    private void getBooksStatistics(){
+        DoubleSummaryStatistics statistics = bookService.getBooksStatistics();
+        System.out.println("\nEl libro más popular tiene " + statistics.getMax() + " descargas");
+        System.out.println("El libro menos popular tiene " + statistics.getMin() + " descargas");
+        System.out.println("La media de descargas es " + statistics.getAverage());
     }
 }

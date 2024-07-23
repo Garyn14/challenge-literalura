@@ -8,6 +8,7 @@ import com.literatura.challenge_litura.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 @Service
@@ -41,5 +42,13 @@ public class BookService {
 
     public List<StatisticsByLanguage> getStatisticsByLanguage() {
         return bookRepository.getStatisticsByLanguage();
+    }
+
+    public DoubleSummaryStatistics getBooksStatistics() {
+        List<Book> books = (List<Book>) getBooks();
+
+        return books.stream()
+                .mapToDouble(Book::getDownloadCount)
+                .summaryStatistics();
     }
 }
